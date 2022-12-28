@@ -1,0 +1,72 @@
+﻿@model MyTask.Core.ViewModel.ListOfCategoryViewModel
+
+@{
+    ViewData["Title"] = "Zarządzaj kategoriami";
+}
+
+<div class="row mb-1 mt-5">
+
+    <div class="col-sm-12 col-lg-8">
+        <h1>Zarządzaj kategoriami</h1>
+    </div>
+    <div class="col-sm-12 col-lg-4">
+        <button type="button" class="btn btn-outline-dark btn-lg form-control"
+                onclick="location.href='@Url.Action("ListOfCategory", "Category", new { show = true } )'">
+            <b>Pokaż nieaktywne kategorie</b>
+        </button>
+    </div>
+</div>
+
+<hr />
+<br />
+
+<div class="row">
+
+    <div class="col-sm-12 col-lg-4">
+        @await Html.PartialAsync("_Category", Model.Category)
+    </div>
+
+    <div class=" col-lg-1"></div>
+
+    <div class="col-sm-12 col-lg-7">
+        @if (Model.ShowNoActiv == true)
+        {
+            @await Html.PartialAsync("_CategoriesFullView", Model.Categories)
+        }
+        else
+        {
+            @await Html.PartialAsync("_Categories", Model.Categories)
+        }
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('#categoriesList').on('click', 'a', function () {
+                var id = $(this).data('id');
+
+                $.ajax({
+                    url: "@Url.Action("Category", "Category")",
+                    type: 'GET',
+                    data: { id: id },
+                    success: function (result) {
+
+                        $('#categoryView').html(result);
+
+                    },
+                     error: function (result) {
+                        alert(data.message)
+                    },
+                    dataType: "html"
+                });
+                return false;
+            });
+        });
+
+    </script>
+}

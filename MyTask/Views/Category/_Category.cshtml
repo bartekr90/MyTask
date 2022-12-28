@@ -1,0 +1,64 @@
+﻿@model MyTask.Core.ViewModel.CategoryViewModel
+
+<div id="categoryView">
+    <div class="card">
+
+        <div class="card-header">
+            <h4 class="mb-3">@Model.Heading</h4>
+        </div>
+
+        <div class="card-body">
+            <form method="post" asp-action="Category">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input asp-for="Category.Id" type="hidden" class="form-control" />
+
+                <div class="form-group">
+                    <input placeholder="Wpisz nazwę" asp-for="Category.Name" class="form-control" />
+                    <span asp-validation-for="Category.Name" class="text-danger"></span>
+                </div>
+
+                @if (Model.Category.Id != 0)
+                {
+                    <div class="form-group">
+                        <input type="submit" value="Zapisz" class="form-control btn btn-success btn-lg mr-2" />
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <input type="submit" value="Dodaj nową" class="form-control btn btn-primary btn-lg mr-2" />
+                    </div>
+                }
+            </form>
+        </div>
+
+        <div class="card-footer">
+            @if (!Model.Category.IsActive)
+            {
+                <div class="form-group">
+
+                    <form method="post" asp-action="ChangeStatus">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <input asp-for="Category.Id" type="hidden" class="form-control" />
+                            <span asp-validation-for="Category.Id" class="text-danger"></span>
+
+                            <input asp-for="Category.Name" type="hidden" class="form-control" />
+                            <div class="form-group">
+                                <input type="submit" value="Oznacz jako aktywna" class="form-control btn btn-outline-primary btn-lg mr-2" />
+                            </div>
+                        </div>
+                    </form>
+
+                    <button type="button" class="form-control btn btn-danger btn-lg mr-2"
+                            onclick="location.href='@Url.Action("Delete", "Category", new { id  = Model.Category.Id } )'">
+                        Usuń kategorię
+                    </button>
+
+                </div>
+            }
+        </div>
+
+    </div>
+
+</div>

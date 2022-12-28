@@ -1,0 +1,61 @@
+﻿@model MyTask.Core.Models.Domains.Category
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+
+    <div class="col-lg-8 offset-lg-2 col-md-6 offset-md-1">
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <h1>Ostrzeżenie</h1>
+                <hr />
+
+            </div>
+
+            <div class="card-body">
+                <h3 class="text-info form-group">
+                    Usunięcie kategorii
+                    <b class="text-danger">@Html.DisplayFor(model => Model.Name)</b>
+                    spowoduje również usunięcie
+                    <b class="text-danger">wszystkich zadań,</b>
+                    które są z nią powiązane!
+                </h3>
+                <br />
+                <form method="post" asp-action="Delete">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group">
+                        <input asp-for="Id" type="hidden" class="form-control" />
+                        <input class="form-check-input" asp-for="IsActive" type="hidden" />
+                        <span asp-validation-for="Id" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input asp-for="Name" type="hidden" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="- Usuń kategorię i zadania -" class="btn btn-danger form-control" />
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <br />
+
+                <button type="button" class="btn btn-primary form-control mb-3"
+                        onclick="location.href='@Url.Action("ListOfCategory", "Category", new { show = true } )'">
+                    --- Anuluj ---
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+</div>

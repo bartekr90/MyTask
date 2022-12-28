@@ -1,0 +1,49 @@
+﻿@model IEnumerable<MyTask.Core.Models.Domains.Category>
+
+<table class="table table-bordered" id="categoriesList">
+    <thead class="thead-dark">
+        <tr>
+
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @if (item.IsActive == true)
+                        {
+                            <a href="#" data-id="@item.Id" class="font-weight-bold">
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="#" data-id="@item.Id" style="color:#5c5a5a" class="font-weight-bold">
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </a>
+                        }
+                    </td>
+                    <td>
+                        @await Html.PartialAsync("_ChangeStatus", item)
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td class="text-center" colspan="5">
+                    Brak osobistych kategorii!
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
